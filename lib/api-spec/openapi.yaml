@@ -1,0 +1,912 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: HiveMind Nexus API - Autonomous AI Workforce Platform
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: agents
+    description: AI agent operations
+  - name: goals
+    description: Business goal operations
+  - name: meetings
+    description: Board meeting operations
+  - name: tasks
+    description: Task management
+  - name: metrics
+    description: Business metrics
+  - name: simulations
+    description: Time-travel business simulations
+  - name: reports
+    description: Generated reports
+  - name: github
+    description: GitHub integration
+  - name: dashboard
+    description: Dashboard summary data
+  - name: assets
+    description: Generated business assets
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /agents:
+    get:
+      operationId: listAgents
+      tags: [agents]
+      summary: List all AI agents
+      responses:
+        "200":
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Agent"
+
+  /agents/network:
+    get:
+      operationId: getAgentNetwork
+      tags: [agents]
+      summary: Get agent communication network graph
+      responses:
+        "200":
+          description: Network graph data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentNetwork"
+
+  /agents/{id}:
+    get:
+      operationId: getAgent
+      tags: [agents]
+      summary: Get agent details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Agent details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Agent"
+        "404":
+          description: Not found
+
+  /goals:
+    get:
+      operationId: listGoals
+      tags: [goals]
+      summary: List business goals
+      responses:
+        "200":
+          description: List of goals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Goal"
+    post:
+      operationId: createGoal
+      tags: [goals]
+      summary: Create a new business goal and trigger AI agents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GoalInput"
+      responses:
+        "201":
+          description: Goal created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Goal"
+
+  /goals/{id}:
+    get:
+      operationId: getGoal
+      tags: [goals]
+      summary: Get goal details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Goal details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Goal"
+        "404":
+          description: Not found
+
+  /goals/{id}/messages:
+    get:
+      operationId: listGoalMessages
+      tags: [goals]
+      summary: Get live agent conversation for a goal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+    post:
+      operationId: sendGoalMessage
+      tags: [goals]
+      summary: Send a prompt or inject a message into agent conversation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageInput"
+      responses:
+        "201":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+
+  /goals/{id}/assets:
+    get:
+      operationId: listGoalAssets
+      tags: [goals]
+      summary: Get generated business assets for a goal
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of generated assets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GeneratedAsset"
+
+  /meetings:
+    get:
+      operationId: listMeetings
+      tags: [meetings]
+      summary: List all board meetings
+      responses:
+        "200":
+          description: List of meetings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Meeting"
+    post:
+      operationId: createMeeting
+      tags: [meetings]
+      summary: Start a new AI board meeting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MeetingInput"
+      responses:
+        "201":
+          description: Meeting started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Meeting"
+
+  /meetings/{id}:
+    get:
+      operationId: getMeeting
+      tags: [meetings]
+      summary: Get meeting details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Meeting details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Meeting"
+        "404":
+          description: Not found
+
+  /meetings/{id}/messages:
+    get:
+      operationId: listMeetingMessages
+      tags: [meetings]
+      summary: Get meeting discussion transcript
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Meeting messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MeetingMessage"
+
+  /tasks:
+    get:
+      operationId: listTasks
+      tags: [tasks]
+      summary: List all tasks
+      parameters:
+        - name: goalId
+          in: query
+          schema:
+            type: ["integer", "null"]
+        - name: status
+          in: query
+          schema:
+            type: ["string", "null"]
+      responses:
+        "200":
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+    post:
+      operationId: createTask
+      tags: [tasks]
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskInput"
+      responses:
+        "201":
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /tasks/{id}:
+    patch:
+      operationId: updateTask
+      tags: [tasks]
+      summary: Update a task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskUpdate"
+      responses:
+        "200":
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+
+  /metrics:
+    get:
+      operationId: listMetrics
+      tags: [metrics]
+      summary: Get business metrics
+      parameters:
+        - name: goalId
+          in: query
+          schema:
+            type: ["integer", "null"]
+      responses:
+        "200":
+          description: List of metrics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BusinessMetric"
+
+  /simulations:
+    get:
+      operationId: listSimulations
+      tags: [simulations]
+      summary: List all simulations
+      responses:
+        "200":
+          description: List of simulations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Simulation"
+    post:
+      operationId: createSimulation
+      tags: [simulations]
+      summary: Run a time-travel business simulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SimulationInput"
+      responses:
+        "201":
+          description: Simulation created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Simulation"
+
+  /simulations/{id}:
+    get:
+      operationId: getSimulation
+      tags: [simulations]
+      summary: Get simulation results
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Simulation details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Simulation"
+
+  /reports:
+    get:
+      operationId: listReports
+      tags: [reports]
+      summary: List generated reports
+      responses:
+        "200":
+          description: List of reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Report"
+
+  /github/logs:
+    get:
+      operationId: listGithubLogs
+      tags: [github]
+      summary: Get GitHub sync history
+      responses:
+        "200":
+          description: GitHub logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GithubLog"
+
+  /github/push:
+    post:
+      operationId: pushToGithub
+      tags: [github]
+      summary: Push project files to GitHub
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GithubPushInput"
+      responses:
+        "200":
+          description: Push result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GithubLog"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Get dashboard overview stats
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+  /dashboard/activity:
+    get:
+      operationId: getDashboardActivity
+      tags: [dashboard]
+      summary: Get recent activity feed
+      responses:
+        "200":
+          description: Recent activity
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    Agent:
+      type: object
+      required: [id, name, role, personality, status, productivityScore, avatarColor]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        role:
+          type: string
+        personality:
+          type: string
+        status:
+          type: string
+          enum: [idle, thinking, working, meeting, offline]
+        currentTask:
+          type: ["string", "null"]
+        productivityScore:
+          type: number
+        avatarColor:
+          type: string
+        model:
+          type: string
+        lastActive:
+          type: ["string", "null"]
+
+    AgentNetwork:
+      type: object
+      required: [nodes, edges]
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/NetworkNode"
+        edges:
+          type: array
+          items:
+            $ref: "#/components/schemas/NetworkEdge"
+
+    NetworkNode:
+      type: object
+      required: [id, agentId, label, status]
+      properties:
+        id:
+          type: string
+        agentId:
+          type: integer
+        label:
+          type: string
+        status:
+          type: string
+        communicationCount:
+          type: integer
+
+    NetworkEdge:
+      type: object
+      required: [source, target, weight]
+      properties:
+        source:
+          type: string
+        target:
+          type: string
+        weight:
+          type: number
+        active:
+          type: boolean
+
+    Goal:
+      type: object
+      required: [id, title, description, status, createdAt]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: ["string", "null"]
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, active, completed, failed]
+        industry:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    GoalInput:
+      type: object
+      required: [title, description]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+        industry:
+          type: string
+
+    Message:
+      type: object
+      required: [id, goalId, agentId, agentName, agentRole, content, messageType, createdAt]
+      properties:
+        id:
+          type: integer
+        goalId:
+          type: integer
+        agentId:
+          type: ["integer", "null"]
+        agentName:
+          type: string
+        agentRole:
+          type: string
+        content:
+          type: string
+        messageType:
+          type: string
+          enum: [statement, question, disagreement, approval, task_handoff, user]
+        confidence:
+          type: ["number", "null"]
+        createdAt:
+          type: string
+
+    MessageInput:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+          minLength: 1
+
+    Meeting:
+      type: object
+      required: [id, title, status, createdAt]
+      properties:
+        id:
+          type: integer
+        goalId:
+          type: ["integer", "null"]
+        title:
+          type: string
+        agenda:
+          type: ["string", "null"]
+        status:
+          type: string
+          enum: [scheduled, active, completed]
+        createdAt:
+          type: string
+        endedAt:
+          type: ["string", "null"]
+
+    MeetingInput:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        goalId:
+          type: ["integer", "null"]
+        agenda:
+          type: string
+
+    MeetingMessage:
+      type: object
+      required: [id, meetingId, agentId, agentName, agentRole, content, createdAt]
+      properties:
+        id:
+          type: integer
+        meetingId:
+          type: integer
+        agentId:
+          type: integer
+        agentName:
+          type: string
+        agentRole:
+          type: string
+        content:
+          type: string
+        confidence:
+          type: ["number", "null"]
+        isDecision:
+          type: boolean
+        createdAt:
+          type: string
+
+    Task:
+      type: object
+      required: [id, title, status, priority, createdAt]
+      properties:
+        id:
+          type: integer
+        goalId:
+          type: ["integer", "null"]
+        assignedAgentId:
+          type: ["integer", "null"]
+        assignedAgentName:
+          type: ["string", "null"]
+        title:
+          type: string
+        description:
+          type: ["string", "null"]
+        status:
+          type: string
+          enum: [pending, in_progress, completed, blocked, failed]
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+        createdAt:
+          type: string
+        completedAt:
+          type: ["string", "null"]
+
+    TaskInput:
+      type: object
+      required: [title, priority]
+      properties:
+        goalId:
+          type: ["integer", "null"]
+        assignedAgentId:
+          type: ["integer", "null"]
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+
+    TaskUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, in_progress, completed, blocked, failed]
+        assignedAgentId:
+          type: ["integer", "null"]
+        description:
+          type: string
+
+    BusinessMetric:
+      type: object
+      required: [id, metricType, value, unit, createdAt]
+      properties:
+        id:
+          type: integer
+        goalId:
+          type: ["integer", "null"]
+        metricType:
+          type: string
+        value:
+          type: number
+        unit:
+          type: string
+        label:
+          type: string
+        trend:
+          type: ["string", "null"]
+          enum: [up, down, stable, null]
+        createdAt:
+          type: string
+
+    Simulation:
+      type: object
+      required: [id, goalId, timeframe, status, createdAt]
+      properties:
+        id:
+          type: integer
+        goalId:
+          type: integer
+        timeframe:
+          type: string
+        status:
+          type: string
+          enum: [pending, running, completed, failed]
+        predictions:
+          type: ["string", "null"]
+        summary:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    SimulationInput:
+      type: object
+      required: [goalId, timeframe]
+      properties:
+        goalId:
+          type: integer
+        timeframe:
+          type: string
+
+    Report:
+      type: object
+      required: [id, title, generatedBy, createdAt]
+      properties:
+        id:
+          type: integer
+        goalId:
+          type: ["integer", "null"]
+        title:
+          type: string
+        content:
+          type: string
+        generatedBy:
+          type: string
+        reportType:
+          type: string
+        createdAt:
+          type: string
+
+    GithubLog:
+      type: object
+      required: [id, status, createdAt]
+      properties:
+        id:
+          type: integer
+        commitHash:
+          type: ["string", "null"]
+        commitMessage:
+          type: string
+        status:
+          type: string
+          enum: [pending, success, failed]
+        filesChanged:
+          type: ["integer", "null"]
+        repoUrl:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    GithubPushInput:
+      type: object
+      required: [commitMessage]
+      properties:
+        commitMessage:
+          type: string
+          minLength: 1
+
+    GeneratedAsset:
+      type: object
+      required: [id, goalId, assetType, title, content, createdAt]
+      properties:
+        id:
+          type: integer
+        goalId:
+          type: integer
+        assetType:
+          type: string
+          enum: [startup_name, logo_concept, tagline, landing_page_copy, marketing_slogan, investor_pitch, pricing_strategy, business_roadmap]
+        title:
+          type: string
+        content:
+          type: string
+        generatedBy:
+          type: string
+        createdAt:
+          type: string
+
+    DashboardSummary:
+      type: object
+      required: [totalGoals, activeAgents, completedTasks, totalMessages, runningMeetings]
+      properties:
+        totalGoals:
+          type: integer
+        activeAgents:
+          type: integer
+        completedTasks:
+          type: integer
+        totalMessages:
+          type: integer
+        runningMeetings:
+          type: integer
+        autonomousMode:
+          type: boolean
+        companyHealth:
+          type: number
+        recentMetrics:
+          type: array
+          items:
+            $ref: "#/components/schemas/BusinessMetric"
+
+    ActivityItem:
+      type: object
+      required: [id, type, description, agentName, createdAt]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [message, task, meeting, goal, simulation, github]
+        description:
+          type: string
+        agentName:
+          type: string
+        agentRole:
+          type: string
+        createdAt:
+          type: string
