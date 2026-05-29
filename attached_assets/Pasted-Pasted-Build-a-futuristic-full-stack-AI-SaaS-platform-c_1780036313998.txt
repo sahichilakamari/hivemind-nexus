@@ -1,0 +1,273 @@
+Pasted-Build-a-futuristic-full-stack-AI-SaaS-platform-called-H_1779870403446.txt
+Build a futuristic full-stack AI SaaS platform called “HiveMind Nexus”.
+
+TAGLINE:
+“The World’s First Autonomous AI Workforce”
+
+HiveMind Nexus is a virtual autonomous company powered entirely by collaborating AI agents.
+
+The system should simulate a real company where AI employees communicate, debate, assign tasks, make decisions, analyze risks, generate business assets, and autonomously operate like a futuristic AI organization.
+
+The project must feel:
+
+* cinematic
+* futuristic
+* autonomous
+* alive
+* beyond a normal chatbot
+
+This is for FlowZint AI Hackathon 2026 under Open Innovation category.
+
+==================================================
+CORE EXPERIENCE
+===============
+
+The user gives a business goal such as:
+“Launch an AI fitness startup”
+
+Then AI agents autonomously collaborate:
+
+* CEO Agent creates business strategy
+* Marketing Agent creates campaigns
+* Finance Agent estimates costs/revenue
+* Sales Agent generates outreach
+* HR Agent manages workforce
+* Support Agent predicts customer issues
+* Design Agent generates branding ideas
+* CTO Agent manages development planning
+
+Agents should communicate LIVE in real time.
+
+==================================================
+TECH STACK
+==========
+
+Frontend:
+
+* Next.js 15
+* React
+* TailwindCSS
+* ShadCN UI
+* Framer Motion
+* Three.js
+
+Backend:
+
+* FastAPI (Python)
+
+Realtime:
+
+* Socket.IO or WebSockets
+
+AI Framework:
+
+* CrewAI
+* LangGraph
+AI Providers (IMPORTANT):
+DO NOT USE OPENAI.
+
+Use FREE/Open-Source AI providers:
+
+Primary AI Provider:
+
+GROQ API
+
+Primary Models:
+
+llama-3.3-70b-versatile
+llama3-70b-8192
+
+Additional Optional Models:
+
+DeepSeek
+Gemini Flash
+Mistral
+Gemma
+
+AI Architecture:
+
+CEO Agent uses DeepSeek-style reasoning
+Marketing Agent uses Llama 3
+Finance Agent uses Gemini-style reasoning
+Support Agent uses lightweight fast model
+CTO Agent uses coding-focused reasoning
+
+Implement model abstraction layer for switching providers dynamically.
+
+Database:
+
+Supabase PostgreSQL
+
+Database:
+
+* Supabase PostgreSQL
+
+Authentication:
+
+* Clerk Auth
+
+Storage:
+
+* Supabase Storage
+
+Voice:
+
+* ElevenLabs API
+* OpenAI Voice API
+
+Deployment:
+
+* Replit Deployments
+
+Version Control:
+
+* GitHub API integration
+
+==================================================
+MAIN FEATURES
+=============
+
+1. AI OFFICE HEADQUARTERS DASHBOARD
+
+Create a futuristic AI company control center.
+
+Each AI employee must have:
+
+* animated avatar
+* role badge
+* current task
+* status indicator
+* productivity score
+* personality type
+* activity feed
+
+Dashboard should include:
+
+* glowing holographic cards
+* live analytics
+* animated metrics
+* futuristic company map
+* glassmorphism UI
+* dark/light mode
+* particle background effects
+
+==================================================
+2. LIVE MULTI-AGENT COMMUNICATION
+
+Agents should communicate in real time.
+
+Display:
+
+* live conversations
+* typing indicators
+* task handoffs
+* approvals/rejections
+* internal discussions
+
+Example:
+CEO Agent:
+“Marketing team prepare launch campaign.”
+
+Marketing Agent:
+“Requesting increased budget allocation.”
+
+Finance Agent:
+“Budget exceeds safe threshold.”
+
+CEO Agent:
+“Reduce campaign by 15%.”
+
+This must feel like real AI employees collaborating.
+
+==================================================
+3. BOARD MEETING MODE
+
+Create a dedicated “Board Meeting” feature.
+
+User clicks:
+“Start AI Board Meeting”
+
+All AI agents should:
+
+* debate strategies
+* analyze risks
+* discuss budgets
+* predict outcomes
+* generate final decisions
+
+Display:
+
+* animated meeting room
+* live speaking indicators
+* discussion timeline
+* confidence scores
+* reasoning visualization
+
+Add cinematic transitions and voice synthesis.
+
+==================================================
+4. AUTONOMOUS COMPANY MODE
+
+Add a feature:
+“Run Company Autonomously”
+
+When enabled:
+AI agents independently:
+
+* create strategies
+* assign tasks
+* optimize budgets
+* generate reports
+* respond to simulated customers
+* monitor company growth
+
+WITHOUT user prompts.
+
+==================================================
+5. AI AGENT PERSONALITIES
+
+Each AI employee must have unique personality traits.
+
+CEO Agent:
+
+* strategic
+* calm
+* analytical
+
+Marketing Agent:
+
+* energetic
+* creative
+* persuasive
+
+Finance Agent:
+
+* skeptical
+* logical
+* risk-focused
+
+HR Agent:
+
+* empathetic
+* organized
+
+Support Agent:
+
+* patient
+* customer-focused
+
+These personalities should affect dialogue and decisions.
+
+==================================================
+6. AGENTS CAN DISAGREE
+
+Agents should not always agree.
+
+Implement intelligent conflict/debate system.
+
+Example:
+Finance Agent rejects risky budget.
+Marketing Agent argues for growth spending.
+CEO Agent resolves disagreement.
+
+This should create emergent AI behavior.
