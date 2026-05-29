@@ -1,9 +1,9 @@
 import { Router, type Request, type Response } from "express";
 import { db } from "@workspace/db";
-import { goalsTable, messagesTable, generatedAssetsTable, agentsTable } from "@workspace/db";
+import { goalsTable, messagesTable, generatedAssetsTable, agentsTable, metricsTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import { broadcast } from "../lib/websocket.js";
-import { getAgentResponse } from "../lib/groq.js";
+import { getAgentResponse, groq } from "../lib/groq.js";
 import { CreateGoalBody, SendGoalMessageBody } from "@workspace/api-zod";
 
 const router = Router();
@@ -162,6 +162,66 @@ async function triggerAgentCollaboration(goalId: number, title: string, descript
   await db.update(agentsTable).set({ status: "idle", currentTask: null });
   await db.update(goalsTable).set({ status: "completed" }).where(eq(goalsTable.id, goalId));
   broadcast("goal_completed", { goalId });
+
+  // Generate real metrics from the AI collaboration
+  generateMetricsForGoal(goalId, title, description).catch(() => {});
+}
+
+async function generateMetricsForGoal(goalId: number, title: string, description: string): Promise<void> {
+  try {
+    const response = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "system",
+          content: "You are a business intelligence AI. Based on a business goal, generate realistic baseline KPI metrics that the AI workforce has analyzed. Return ONLY valid JSON, no explanation.",
+        },
+        {
+          role: "user",
+          content: `Business Goal: "${title}". Description: "${description}".
+
+Generate KPI metrics for this goal. Return this exact JSON structure:
+{
+  "metrics": [
+    {"metricType": "revenue_growth", "label": "Projected Revenue", "value": <number>, "unit": "USD", "trend": "up"},
+    {"metricType": "user_acquisition", "label": "Target Users", "value": <number>, "unit": "users", "trend": "up"},
+    {"metricType": "market_share", "label": "Market Share Target", "value": <number>, "unit": "%", "trend": "up"},
+    {"metricType": "operational_efficiency", "label": "Ops Efficiency", "value": <number>, "unit": "%", "trend": "stable"},
+    {"metricType": "agent_productivity", "label": "AI Workforce Score", "value": <number>, "unit": "%", "trend": "up"},
+    {"metricType": "cost_reduction", "label": "Cost Savings Target", "value": <number>, "unit": "%", "trend": "up"}
+  ]
+}
+
+Use realistic values based on the goal description. All values must be numbers.`,
+        },
+      ],
+      max_tokens: 600,
+      temperature: 0.5,
+    });
+
+    const raw = response.choices[0]?.message?.content || "{}";
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) return;
+    const data = JSON.parse(jsonMatch[0]);
+
+    if (Array.isArray(data.metrics)) {
+      for (const m of data.metrics) {
+        if (m.metricType && m.label && typeof m.value === "number" && m.unit) {
+          await db.insert(metricsTable).values({
+            goalId,
+            metricType: m.metricType,
+            label: m.label,
+            value: m.value,
+            unit: m.unit,
+            trend: m.trend || "stable",
+          });
+        }
+      }
+      broadcast("metrics_updated", { goalId });
+    }
+  } catch {
+    // metrics generation is best-effort
+  }
 }
 
 async function triggerAgentReplies(
