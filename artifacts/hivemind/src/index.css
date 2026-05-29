@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -60,7 +60,6 @@
   --font-sans: var(--app-font-sans);
   --font-serif: var(--app-font-serif);
   --font-mono: var(--app-font-mono);
-  --font-display: var(--app-font-display);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -68,78 +67,129 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root, .dark {
-  --button-outline: rgba(0,255,255, .15);
-  --badge-outline: rgba(0,255,255, .10);
+/* Base Light Mode - Not really used in this futuristic app but kept for completeness */
+:root {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
 
   --opaque-button-border-intensity: -8;
 
-  --elevate-1: rgba(0,255,255, .05);
-  --elevate-2: rgba(0,255,255, .10);
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
 
-  /* Deep space navy background */
-  --background: 222 47% 4%;
-  /* Cyan tinted white */
-  --foreground: 180 30% 95%;
-
-  /* Dark translucent borders with cyan hint */
-  --border: 190 50% 15%;
-
-  /* Glassmorphism cards */
-  --card: 222 47% 6%;
-  --card-foreground: 180 30% 95%;
-  --card-border: 190 60% 20%;
-
-  --sidebar: 222 47% 5%;
-  --sidebar-foreground: 180 30% 90%;
-  --sidebar-border: 190 50% 15%;
-  --sidebar-primary: 180 100% 50%;
-  --sidebar-primary-foreground: 222 47% 4%;
-  --sidebar-accent: 190 60% 12%;
-  --sidebar-accent-foreground: 180 100% 50%;
-  --sidebar-ring: 180 100% 50%;
-
-  --popover: 222 47% 6%;
-  --popover-foreground: 180 30% 95%;
-  --popover-border: 190 60% 20%;
-
-  /* Electric Cyan */
-  --primary: 180 100% 50%;
-  --primary-foreground: 222 47% 4%;
-
-  /* Neon Purple */
-  --secondary: 280 100% 65%;
-  --secondary-foreground: 222 47% 4%;
-
-  --muted: 222 47% 12%;
-  --muted-foreground: 180 20% 65%;
-
-  --accent: 190 60% 15%;
-  --accent-foreground: 180 100% 50%;
-
-  /* Red/orange for destructive */
-  --destructive: 0 100% 60%;
+  --background: 230 20% 95%;
+  --foreground: 230 50% 5%;
+  --border: 230 20% 85%;
+  --card: 0 0% 100%;
+  --card-foreground: 230 50% 5%;
+  --card-border: 230 20% 90%;
+  --sidebar: 230 20% 98%;
+  --sidebar-foreground: 230 50% 10%;
+  --sidebar-border: 230 20% 85%;
+  --sidebar-primary: 260 80% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 230 20% 90%;
+  --sidebar-accent-foreground: 230 50% 15%;
+  --sidebar-ring: 260 80% 50%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 230 50% 5%;
+  --popover-border: 230 20% 85%;
+  
+  --primary: 260 80% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 320 80% 50%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 230 20% 90%;
+  --muted-foreground: 230 20% 40%;
+  --accent: 240 80% 50%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 350 80% 50%;
   --destructive-foreground: 0 0% 100%;
 
-  --input: 190 50% 20%;
-  --ring: 180 100% 50%;
-  
-  --chart-1: 180 100% 50%;
-  --chart-2: 280 100% 65%;
-  --chart-3: 320 100% 60%;
-  --chart-4: 150 100% 50%;
-  --chart-5: 45 100% 50%;
+  --input: 230 20% 85%;
+  --ring: 260 80% 50%;
+  --chart-1: 260 80% 50%;
+  --chart-2: 320 80% 50%;
+  --chart-3: 150 80% 40%;
+  --chart-4: 40 90% 50%;
+  --chart-5: 280 80% 60%;
 
-  --app-font-sans: 'Rajdhani', sans-serif;
+  --app-font-sans: 'Outfit', sans-serif;
   --app-font-serif: Georgia, serif;
   --app-font-mono: 'Space Mono', monospace;
-  --app-font-display: 'Rajdhani', sans-serif;
+  --radius: 0.5rem;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --button-outline: rgba(255,255,255, .10);
+  --badge-outline: rgba(255,255,255, .05);
+
+  --opaque-button-border-intensity: 9;
+
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .09);
+
+  /* Deep space navy background */
+  --background: 235 60% 4%;
+  /* Crisp white/light violet foreground */
+  --foreground: 240 20% 98%;
   
-  --radius: 0.25rem;
+  /* Glowing indigo borders */
+  --border: 245 40% 16%;
   
-  --shadow-glow: 0 0 15px 0px rgba(0, 255, 255, 0.2);
-  --shadow-glow-lg: 0 0 30px 0px rgba(0, 255, 255, 0.3);
-  --shadow-glow-purple: 0 0 15px 0px rgba(180, 0, 255, 0.2);
+  /* Glassmorphism card bases */
+  --card: 235 60% 6%;
+  --card-foreground: 240 20% 98%;
+  --card-border: 245 50% 16%;
+  
+  --sidebar: 235 60% 4%;
+  --sidebar-foreground: 240 20% 90%;
+  --sidebar-border: 245 40% 16%;
+  --sidebar-primary: 265 85% 55%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 245 50% 12%;
+  --sidebar-accent-foreground: 240 20% 98%;
+  --sidebar-ring: 265 85% 55%;
+  
+  --popover: 235 60% 6%;
+  --popover-foreground: 240 20% 98%;
+  --popover-border: 245 50% 16%;
+  
+  /* Deep purple/violet primary */
+  --primary: 265 85% 55%;
+  --primary-foreground: 0 0% 100%;
+  
+  /* Fuchsia/magenta secondary */
+  --secondary: 320 85% 50%;
+  --secondary-foreground: 0 0% 100%;
+  
+  /* Electric indigo accent */
+  --accent: 245 80% 55%;
+  --accent-foreground: 0 0% 100%;
+  
+  /* Muted elements in deep navy */
+  --muted: 245 40% 12%;
+  --muted-foreground: 245 20% 65%;
+  
+  /* Destructive/Danger - We use fuchsia/red for critical */
+  --destructive: 340 85% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Input fields */
+  --input: 245 40% 16%;
+  --ring: 265 85% 65%;
+  
+  /* Chart colors - glowing neon suite */
+  --chart-1: 265 85% 60%; /* Violet */
+  --chart-2: 320 85% 55%; /* Fuchsia */
+  --chart-3: 150 80% 45%; /* Aurora Green */
+  --chart-4: 245 80% 60%; /* Indigo */
+  --chart-5: 45 95% 55%;  /* Amber */
 }
 
 @layer base {
@@ -148,53 +198,30 @@
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
-    background-image: 
-      radial-gradient(circle at 15% 50%, rgba(0, 255, 255, 0.03), transparent 25%),
-      radial-gradient(circle at 85% 30%, rgba(180, 0, 255, 0.03), transparent 25%);
-    background-attachment: fixed;
+    @apply font-sans antialiased bg-background text-foreground selection:bg-primary/30 selection:text-primary-foreground;
+    /* Subtle starfield/noise texture background */
+    background-image: radial-gradient(circle at 50% 0%, rgba(100, 50, 255, 0.05) 0%, transparent 70%);
   }
 }
 
-/* Custom Utilities for HUD vibes */
+/* Custom utility for glowing effects */
 @layer utilities {
-  .glass-panel {
-    @apply bg-card/60 backdrop-blur-md border border-card-border shadow-[var(--shadow-glow)];
+  .glow-primary {
+    box-shadow: 0 0 15px -3px hsl(var(--primary) / 0.5), 0 0 6px -2px hsl(var(--primary) / 0.3);
   }
-  
-  .glass-panel-heavy {
-    @apply bg-card/80 backdrop-blur-xl border border-card-border shadow-[var(--shadow-glow)];
+  .glow-secondary {
+    box-shadow: 0 0 15px -3px hsl(var(--secondary) / 0.5), 0 0 6px -2px hsl(var(--secondary) / 0.3);
   }
-
-  .text-glow {
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  .glow-accent {
+    box-shadow: 0 0 15px -3px hsl(var(--accent) / 0.5), 0 0 6px -2px hsl(var(--accent) / 0.3);
   }
-  
-  .text-glow-purple {
-    text-shadow: 0 0 10px rgba(180, 0, 255, 0.5);
+  .glow-success {
+    box-shadow: 0 0 15px -3px hsl(150 80% 45% / 0.5), 0 0 6px -2px hsl(150 80% 45% / 0.3);
   }
-
-  .border-glow {
-    box-shadow: 0 0 10px 0 rgba(0, 255, 255, 0.3), inset 0 0 10px 0 rgba(0, 255, 255, 0.1);
+  .glow-warning {
+    box-shadow: 0 0 15px -3px hsl(45 95% 55% / 0.5), 0 0 6px -2px hsl(45 95% 55% / 0.3);
   }
-}
-
-/* Animations */
-@keyframes scanline {
-  0% { transform: translateY(-100%); opacity: 0; }
-  50% { opacity: 0.5; }
-  100% { transform: translateY(100vh); opacity: 0; }
-}
-
-.scanline-effect::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 10px;
-  background: linear-gradient(to bottom, transparent, rgba(0, 255, 255, 0.3), transparent);
-  animation: scanline 8s linear infinite;
-  pointer-events: none;
-  z-index: 50;
+  .glass-card {
+    @apply bg-background/60 backdrop-blur-md border border-white/5 shadow-xl;
+  }
 }
